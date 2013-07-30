@@ -97,8 +97,15 @@
       </setdynvars>
       <% }); %>
 
+
+     <request>
+       <websocket type="connect" path="/socket.io/1/websocket"></websocket>
+     </request>
+
       <!-- Session actions -->
       <% _.each(session.actions, function(action) { %>
+
+
       <% if (action.type === 'transaction') { %>
       <transaction name="<%= action.name %>">
         <% _.each(action.requests, function(request) { %>
@@ -113,6 +120,7 @@
             <% } %>
           </http>
         </request>
+
         <% } else if (request.type === 'if') { %>
         <if var="<%= request.ifVar %>" eq="<%= request.ifEq %>">
           <% _.each(request.requests, function(request) { %>
@@ -128,13 +136,25 @@
           </request>
           <% }); %>
         </if>
+
+        <% } else if (request.type === 'websocket') { %>
+          <request>
+              <websocket type="message"><%= request.message %></websocket>
+          </request>
         <% } %>
+
         <% }); %>
       </transaction>
       <% } else if (action.type === 'think') { %>
-      <thinktime value="<%= action.seconds %>" random="<%= action.isRandom %>"/>
+        <thinktime value="<%= action.seconds %>" random="<%= action.isRandom %>"/>
       <% } %>
       <% }); %>
+
+
+     <request>
+      <websocket type="close"></websocket>
+     </request>
+
     </session>
     <% }); %>
   </sessions>

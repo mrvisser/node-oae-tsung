@@ -168,7 +168,7 @@
           <% if (session.loggedIn) { %>
             <!-- Authenticate ourselves with the socket -->
             <request subst="true">
-              <websocket type="message">"{\"name\":\"authentication\",\"payload\":{\"userId\":\"%%_current_user_id%%\",\"tenantAlias\": \"%%_current_user_tenant_alias%%\" ,\"signature\":{\"signature\":\"%%_current_user_signature_signature%%\",\"expires\":\"%%_current_user_signature_expires%%\"}}}"</websocket>
+              <websocket type="message">"{\"name\":\"authentication\",\"id\": \"foo\", \"payload\":{\"userId\":\"%%_current_user_id%%\",\"tenantAlias\": \"%%_current_user_tenant_alias%%\" ,\"signature\":{\"signature\":\"%%_current_user_signature_signature%%\",\"expires\":\"%%_current_user_signature_expires%%\"}}}"</websocket>
             </request>
 
             <!-- We need to wait till the server accepted our authentication request. Ideally we'd just wait till we get the OK response, but there is no such thing in tsung -->
@@ -176,7 +176,7 @@
 
             <!-- All pages require the notifications feed -->
             <request subst="true">
-              <websocket type="message">"{\"name\":\"register-for-feed\",\"payload\":{\"feed\":\"oae.notifications\",\"resourceId\":\"%%_current_user_id%%\",\"signature\":{\"signature\":\"%%_current_user_signature_signature%%\",\"expires\":\"%%_current_user_signature_expires%%\"}}}"</websocket>
+              <websocket type="message">"{\"name\":\"register-for-feed\",\"id\": \"bar\",\"payload\":{\"feed\":\"oae.notifications\",\"userId\":\"%%_current_user_id%%\",\"signature\":{\"signature\":\"%%_current_user_signature_signature%%\",\"expires\":\"%%_current_user_signature_expires%%\"}}}"</websocket>
             </request>
 
             <!-- Wait a little bit -->

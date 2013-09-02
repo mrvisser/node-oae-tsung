@@ -145,7 +145,7 @@
           <!-- If we need to setup a websocket in this action we do it outside of the tsung transaction -->
 
           <!-- We need to change the session type to websocket -->
-          <change_type new_type="ts_websocket" host="cam.oae.com" port="80" server_type="tcp" store="true" <% if (hasWebSocket) { %>restore="true" <% } %>bidi="true" />
+          <change_type new_type="ts_websocket" host="<%= clients[0].host %>" port="80" server_type="tcp" store="true" <% if (hasWebSocket) { %>restore="true" <% } %>bidi="true" />
 
           <!-- We need to check if we had another websocket first though, so we can close it. -->
           <% if (hasWebSocket) { %>
@@ -153,7 +153,7 @@
                 <websocket type="close"></websocket>
             </request>
 
-            <!-- It takes 2 seconds before the websocket gets set up *waves hand*-->
+            <!-- It takes 2 seconds before the websocket gets set up *waves hand* -->
             <thinktime value="2" random="true" />
           <%
             }
@@ -184,7 +184,7 @@
           <% } %>
 
           <!-- Switch back to http -->
-          <change_type new_type="ts_http" host="cam.oae.com" port="80" server_type="tcp" store="true" restore="true" bidi="true" />
+          <change_type new_type="ts_http" host="<%= clients[0].host %>" port="80" server_type="tcp" store="true" restore="true" bidi="true" />
 
         <% } %>
 
@@ -196,9 +196,13 @@
       <% }); %>
 
 
-     <request>
-      <websocket type="close"></websocket>
-     </request>
+      <% if (hasWebSocket) { %>
+        <change_type new_type="ts_websocket" host="<%= clients[0].host %>" port="80" server_type="tcp" store="true" restore="true" bidi="true" />
+
+        <request>
+          <websocket type="close"></websocket>
+        </request>
+      <% } %>
 
     </session>
     <% }); %>
